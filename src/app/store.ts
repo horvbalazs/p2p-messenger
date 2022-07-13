@@ -1,10 +1,15 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import rootReducer from "../reducers";
+import * as customThunks from "../thunks";
 
 export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-  },
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      thunk: {
+        extraArgument: { ...customThunks },
+      },
+    }),
 });
 
 export type AppDispatch = typeof store.dispatch;
