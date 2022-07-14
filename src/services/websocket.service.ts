@@ -6,12 +6,12 @@ class WebsocketService {
       return this._instance;
     }
 
-    this._instance = new WebSocket("ws://localhost:7071/ws");
+    this._instance = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL as string);
     return this._instance;
   }
 
   public static reset(): WebSocket {
-    this._instance = new WebSocket("ws://localhost:7071/ws");
+    this._instance = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL as string);
     return this._instance;
   }
 }

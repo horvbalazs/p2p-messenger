@@ -64,6 +64,7 @@ const AppDrawer = () => {
     if (!contactId) return;
 
     dispatch(addContact(contactId, ws));
+    selectConversation(contactId);
     setOpen(false);
   }
 
