@@ -7,18 +7,18 @@ export const logInAsGuest = (ws?: WebSocket, guestId?: string) => {
       type: AuthTypes.LOGIN,
     });
 
-    if (!ws) {
+    if (!ws || !guestId) {
       dispatch({
-        type: AuthTypes.LOGOUT_SUCCESS,
+        type: AuthTypes.LOGIN_FAILURE,
       })
     } else {
-      const data = {
+      const data: WebsocketMessageData = {
         type: "LOGIN",
         metadata: {
           clientId: undefined,
           guestId,
         },
-      } as WebsocketMessageData;
+      };
 
       try {
         ws.send(JSON.stringify(data));
@@ -41,10 +41,10 @@ export const logout = (ws?: WebSocket) => {
         type: AuthTypes.LOGOUT_SUCCESS,
       })
     } else {
-      const data = {
+      const data: WebsocketMessageData = {
         type: "LOGOUT",
         metadata: undefined,
-      } as WebsocketMessageData;
+      };
 
       dispatch({
         type: AuthTypes.LOGOUT,
@@ -55,6 +55,7 @@ export const logout = (ws?: WebSocket) => {
         dispatch({
           type: AuthTypes.LOGOUT_SUCCESS,
         })
+        ws.close();
       } catch (e) {
         dispatch({
           type: AuthTypes.LOGOUT_FAILURE,

@@ -16,7 +16,7 @@ export interface LoginMetaData {
 }
 
 export interface WebsocketMessageData {
-  type: "MESSAGE" | "CONNECT" | "ERROR" | "LOGOUT" | "LOGIN";
+  type: "MESSAGE" | "CONNECT" | "ERROR" | "LOGOUT" | "LOGIN" | "CONTACT";
   metadata: MessageDTO | ConnectionResponse | LoginMetaData | string | undefined;
 }
 

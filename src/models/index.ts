@@ -1,7 +1,9 @@
-export type Action<T> = {
+export type Action<T, K = any> = {
   type: T;
-  payload?: any;
+  payload?: K;
 };
 
 export * from "./auth";
 export * from "./message";
+export * from "./alert";
+export * from "./contact";

@@ -1,6 +1,6 @@
 interface MessageBody {
   senderUserName: string;
-  date: string;
+  date: number;
   text: string;
 }
 
@@ -17,12 +17,15 @@ export interface MessageDTO {
 }
 
 export interface MessagesState {
-  messages: Message[];
+  messages: Map<string, Message[]>;
 }
 
 export enum MessageTypes {
   ON_MESSAGE = "ON_MESSAGE",
   SEND_MESSAGE = "SEND_MESSAGE",
+  ADD_CONTACT = "ADD_CONTACT",
+  ADD_CONTACT_SUCCESS = "ADD_CONTACT_SUCCESS",
+  ADD_CONTACT_FAILURE = "ADD_CONTACT_FAILURE",
   SEND_MESSAGE_SUCCESS = "SEND_MESSAGE_SUCCESS",
   SEND_MESSAGE_FAILURE = "SEND_MESSAGE_FAILURE",
 }
