@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import SendIcon from '@mui/icons-material/Send';
-import { Box, Button, IconButton, Paper, Stack, TextField, Toolbar, Typography } from "@mui/material";
+import { Box, Button, Divider, IconButton, Paper, Stack, TextField, Toolbar, Typography } from "@mui/material";
 import moment from "moment";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FormEvent, useContext, useState } from "react";
@@ -18,8 +18,8 @@ const ComponentContainer = styled(Box)`
 
 const HeaderContainer = styled.div`
   display: flex;
-  justify-content: center;
   gap: 5px;
+  padding: 5px 10px 10px;
 `;
 
 const MessagesContainer = styled.div`
@@ -110,6 +110,7 @@ const Messages = () => {
           <DeleteIcon />
         </IconButton>
       </HeaderContainer>
+      <Divider />
       <MessagesContainer>
       <Stack
         direction="column-reverse"
@@ -117,13 +118,12 @@ const Messages = () => {
         alignItems="stretch"
         spacing={0.5}
       >
-        {messages.map(message => <MessageLine className={selectedContact === message.recipient ? 'sent' : undefined}>
+        {messages.map(message => <MessageLine className={selectedContact === message.recipient ? 'sent' : undefined} key={message.body.date}>
             <MessageBubble
             elevation={3}
             sx={selectedContact === message.recipient ? {
               backgroundColor: 'info.dark'
             } : undefined}
-            key={message.body.date}
           >{message.body.text}</MessageBubble>
         </MessageLine>)}
       </Stack>

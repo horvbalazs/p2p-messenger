@@ -34,6 +34,11 @@ const authReducer = (
         loggedIn: false,
         clientId: undefined,
       };
+    case AuthTypes.CHANGE_NAME:
+      return {
+        ...state,
+        username: action.payload.username,
+      }
     default:
       return state;
   }

@@ -7,19 +7,8 @@ import { addContact } from "../thunks";
 import { WebsocketContext } from "../contexts/websocket.context";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import styled from "@emotion/styled";
-
-const DialogContainer = styled.div`
-  max-width: 50vw;
-  min-width: 25vw;
-  padding: 10px;
-`;
-
-const FormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
+import DialogContainer from "./common/DialogContainer";
+import FormContainer from "./common/FormContainer";
 
 const AppDrawer = () => {
   const {auth: authState, message: messageState, contact: { selectedContact }} = useAppSelector(state => state);
@@ -115,9 +104,9 @@ const AppDrawer = () => {
               <ListItemText primary="Add contact" />
             </ListItemButton>
           </ListItem>
-          <Divider />
         </List>
       </Box>
+      <Divider />
       <Box sx={{ overflow: 'auto' }}>
         <List>
           {Array.from(messageState.messages).map(([clientId, messages]) => 

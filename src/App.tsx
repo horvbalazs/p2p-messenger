@@ -4,11 +4,12 @@ import styled from "@emotion/styled";
 import AppDrawer from "./components/Drawer";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { WebsocketContext } from "./contexts/websocket.context";
-import { connect, subscribe } from "./thunks";
+import { subscribe } from "./thunks";
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { Alert, Snackbar } from "@mui/material";
 import { AlertTypes } from "./models";
 import Messages from "./components/Messages";
+import websocketService from "./services/websocket.service";
 
 
 const darkTheme = createTheme({
@@ -28,17 +29,12 @@ const ContentContainer = styled.div`
   height: 100%;
 `;
 
-interface AppProps {
-  ws: WebSocket,
-}
-
-function App({ ws }: AppProps) {
-  const loggedIn = useAppSelector((state) => state.auth.loggedIn);
+function App() {
+  const {auth: { loggedIn }} = useAppSelector((state) => state);
+  const { Instance: ws } = websocketService;
   const alert = useAppSelector(state => state.alert);
   const dispatch = useAppDispatch();
-
   ws.onopen = () => {
-    dispatch(connect(ws));
     dispatch(subscribe(ws));
   };
 

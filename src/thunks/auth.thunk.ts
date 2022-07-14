@@ -34,7 +34,7 @@ export const logInAsGuest = (ws?: WebSocket, guestId?: string) => {
   };
 };
 
-export const logout = (ws?: WebSocket) => {
+export const logout = (clientId: string, ws?: WebSocket) => {
   return (dispatch: Dispatch<Action<AuthTypes>>) => {
     if (!ws) {
       dispatch({
@@ -43,7 +43,9 @@ export const logout = (ws?: WebSocket) => {
     } else {
       const data: WebsocketMessageData = {
         type: "LOGOUT",
-        metadata: undefined,
+        metadata: {
+          clientId,
+        },
       };
 
       dispatch({
@@ -55,7 +57,6 @@ export const logout = (ws?: WebSocket) => {
         dispatch({
           type: AuthTypes.LOGOUT_SUCCESS,
         })
-        ws.close();
       } catch (e) {
         dispatch({
           type: AuthTypes.LOGOUT_FAILURE,

@@ -8,27 +8,7 @@ import {
   MessageDTO,
   MessageTypes,
   WebsocketMessageData,
-} from "../models";
-
-export const connect = (websocket: WebSocket) => {
-  return (dispatch: Dispatch<Action<AuthTypes>>) => {
-    dispatch({
-      type: AuthTypes.CONNECT,
-    });
-
-    try {
-      websocket.onopen = () => {
-        dispatch({
-          type: AuthTypes.CONNECT_SUCCESS,
-        });
-      };
-    } catch {
-      dispatch({
-        type: AuthTypes.CONNECT_FAILURE,
-      });
-    }
-  };
-};
+} from "../models";;
 
 export const subscribe = (ws: WebSocket) => {
   return (dispatch: Dispatch<Action<AuthTypes | MessageTypes | AlertTypes>>) => {

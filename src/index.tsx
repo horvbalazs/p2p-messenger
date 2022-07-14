@@ -8,12 +8,10 @@ import "./index.scss";
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
-const ws = new WebSocket("ws://localhost:7071/ws");
-
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App ws={ws}/>
+      <App />
     </Provider>
   </React.StrictMode>
 );

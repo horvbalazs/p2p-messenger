@@ -3,20 +3,26 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import ForumRoundedIcon from '@mui/icons-material/ForumRounded';
 import HomeIcon from '@mui/icons-material/Home';
 import EditIcon from '@mui/icons-material/Edit';
-import { AppBar, IconButton, ListItemIcon, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, Dialog, DialogTitle, IconButton, ListItemIcon, Menu, MenuItem, TextField, Toolbar, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { logout } from "../thunks/auth.thunk";
-import { useContext, useState } from "react";
+import { FormEvent, useContext, useState } from "react";
 import { WebsocketContext } from "../contexts/websocket.context";
-import { ContactTypes } from '../models';
+import { AuthTypes, ContactTypes } from '../models';
+import DialogContainer from './common/DialogContainer';
+import FormContainer from './common/FormContainer';
 
 const Header = () => {
+  const {loggedIn, username, clientId} = useAppSelector(state => state.auth);
+  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [newName, setNewName] = useState<string>('');
   const websocket = useContext(WebsocketContext);
   const dispatch = useAppDispatch();
-  const loggedIn = useAppSelector(state => state.auth.loggedIn);
 
   const handleLogout = () => {
-    dispatch(logout(websocket));
+    if (clientId) {
+      dispatch(logout(clientId, websocket));
+    }
     handleClose();
   }
 
@@ -25,9 +31,11 @@ const Header = () => {
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const handleGoHome = () => {
     dispatch({
       type: ContactTypes.SELECT,
@@ -38,14 +46,27 @@ const Header = () => {
     handleClose();
   }
 
-  const name = useAppSelector((state) => state.auth.username);
-  return (
+  const handleChangeName = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!newName) return;
+
+    dispatch({
+      type: AuthTypes.CHANGE_NAME,
+      payload: {
+        username: newName,
+      }
+    });
+    setNewName('');
+    setDialogOpen(false);
+  }
+
+  return (<>
     <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
         <ForumRoundedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
         <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>P2PM</Typography>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'right', paddingRight: '10px' }}>
-          {loggedIn ? name : ''}
+          {loggedIn ? username : ''}
         </Typography>
         {loggedIn && <IconButton
           size="large"
@@ -70,7 +91,10 @@ const Header = () => {
           </ListItemIcon>
           Home
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem  onClick={() => {
+            setDialogOpen(true);
+            handleClose();
+          }}>
           <ListItemIcon>
             <EditIcon />
           </ListItemIcon>
@@ -84,7 +108,18 @@ const Header = () => {
         </MenuItem>
       </Menu>
     </AppBar>
-  );
+    <Dialog onClose={() => setDialogOpen(false)} open={dialogOpen}>
+      <DialogContainer>
+        <DialogTitle>Change name</DialogTitle>
+        <FormContainer onSubmit={handleChangeName}>
+          <TextField id="new-name" placeholder={username} variant="outlined" onChange={e => setNewName(e.target.value)} value={newName} autoComplete="off" />
+          <Button variant="contained" type="submit">
+            Done
+          </Button>
+        </FormContainer>
+      </DialogContainer>
+    </Dialog>
+  </>);
 };
 
 export default Header;
