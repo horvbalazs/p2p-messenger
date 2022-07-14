@@ -14,6 +14,11 @@ const contactReducer = (
         ...state,
         selectedContact: action.payload.clientId,
       };
+    case ContactTypes.CLEAR:
+      return {
+        ...state,
+        selectedContact: '',
+      }
     default:
       return state;
   }

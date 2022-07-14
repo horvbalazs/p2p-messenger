@@ -37,7 +37,18 @@ const messageReducer = (
       }
 
       return state;
+    case MessageTypes.REMOVE_CONTACT:
+      if (action.payload) {
+        const stateMessages = state.messages;
+        stateMessages.delete(action.payload.recipient,);
 
+        return {
+          ...state,
+          messages: stateMessages,
+        };
+      }
+
+      return state;
     case MessageTypes.ADD_CONTACT_SUCCESS:
       if (action.payload) {
         if (!state.messages.has(action.payload.recipient)) {

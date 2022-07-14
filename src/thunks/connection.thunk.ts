@@ -5,7 +5,6 @@ import {
   AlertTypes,
   AuthTypes,
   ConnectionResponse,
-  Message,
   MessageDTO,
   MessageTypes,
   WebsocketMessageData,

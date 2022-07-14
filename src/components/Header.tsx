@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { logout } from "../thunks/auth.thunk";
 import { useContext, useState } from "react";
 import { WebsocketContext } from "../contexts/websocket.context";
+import { ContactTypes } from '../models';
 
 const Header = () => {
   const websocket = useContext(WebsocketContext);
@@ -27,6 +28,15 @@ const Header = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const handleGoHome = () => {
+    dispatch({
+      type: ContactTypes.SELECT,
+      payload: {
+        clientId: undefined,
+      }
+    });
+    handleClose();
+  }
 
   const name = useAppSelector((state) => state.auth.username);
   return (
@@ -34,10 +44,10 @@ const Header = () => {
       <Toolbar>
         <ForumRoundedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
         <Typography variant="h5" component="div" sx={{ flexGrow: 1 }}>P2PM</Typography>
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1, textAlign: 'right', paddingRight: '10px' }}>
           {loggedIn ? name : ''}
         </Typography>
-        <IconButton
+        {loggedIn && <IconButton
           size="large"
           aria-controls="menu-appbar"
           aria-haspopup="true"
@@ -45,7 +55,7 @@ const Header = () => {
           color="inherit"
         >
           <MenuIcon />
-        </IconButton>
+        </IconButton>}
       </Toolbar>
       <Menu
         id="positioned-menu"
@@ -54,19 +64,19 @@ const Header = () => {
         open={open}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>
+        <MenuItem onClick={handleGoHome}>
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
           Home
         </MenuItem>
-        <MenuItem onClick={handleClose} disabled={!loggedIn}>
+        <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <EditIcon />
           </ListItemIcon>
           Change name
         </MenuItem>
-        <MenuItem onClick={handleLogout} disabled={!loggedIn}>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <LogoutIcon />
           </ListItemIcon>

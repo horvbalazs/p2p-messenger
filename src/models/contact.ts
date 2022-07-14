@@ -4,4 +4,5 @@ export interface ContactState {
 
 export enum ContactTypes {
   SELECT = 'SELECT',
+  CLEAR = 'CLEAR',
 }

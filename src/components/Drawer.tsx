@@ -22,7 +22,7 @@ const FormContainer = styled.form`
 `;
 
 const AppDrawer = () => {
-  const {auth: authState, message: messageState} = useAppSelector(state => state);
+  const {auth: authState, message: messageState, contact: { selectedContact }} = useAppSelector(state => state);
   const [open, setOpen] = useState<boolean>(false);
   const [contactId, setContactId] = useState<string>('');
   const ws = useContext(WebsocketContext);
@@ -121,11 +121,18 @@ const AppDrawer = () => {
       <Box sx={{ overflow: 'auto' }}>
         <List>
           {Array.from(messageState.messages).map(([clientId, messages]) => 
-            <ListItem key={clientId}>
-              <ListItemButton onClick={() => selectConversation(clientId)}>
+            <ListItem key={clientId} disablePadding>
+              <ListItemButton onClick={() => selectConversation(clientId)} selected={clientId === selectedContact}>
                 <ListItemText 
                   primary={getContactDisplayName(messages, clientId)} 
-                  secondary={messages.length > 0 ? messages[0]?.body.text : ''} />
+                  primaryTypographyProps={{
+                    noWrap: true,
+                  }}
+                  secondary={messages.length > 0 ? messages[0]?.body.text : ''} 
+                  secondaryTypographyProps={{
+                    noWrap: true,
+                  }}
+                  />
               </ListItemButton>
             </ListItem>
             )}
@@ -136,7 +143,7 @@ const AppDrawer = () => {
       <DialogContainer>
         <DialogTitle>Add contact</DialogTitle>
         <FormContainer onSubmit={handleAddContact}>
-          <TextField id="client-id" label="Client ID" variant="outlined" onChange={e => setContactId(e.target.value)} value={contactId} />
+          <TextField id="client-id" label="Client ID" variant="outlined" onChange={e => setContactId(e.target.value)} value={contactId} autoComplete="off" />
           <Button variant="contained" type="submit">
             Done
           </Button>
