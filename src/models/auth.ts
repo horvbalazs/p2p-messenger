@@ -11,7 +11,6 @@ export interface ConnectionResponse {
 }
 
 export interface LoginMetaData {
-  guestId: string,
   userId?: string,
 }
 
@@ -27,6 +26,8 @@ export enum AuthTypes {
   LOGIN = "LOGIN",
   LOGIN_SUCCESS = "LOGIN_SUCCESS",
   LOGIN_FAILURE = "LOGIN_FAILURE",
+  LOGIN_WITH_OAUTH = "LOGIN_WITH_OAUTH",
+  LOGIN_WITH_OAUTH_FAILURE = "LOGIN_WITH_OAUTH_FAILURE",
   LOGOUT = "LOGOUT",
   LOGOUT_SUCCESS = "LOGOUT_SUCCESS",
   LOGOUT_FAILURE = "LOGOUT_FAILURE",

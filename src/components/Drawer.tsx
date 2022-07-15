@@ -27,6 +27,12 @@ const AppDrawer = () => {
     return !received ? clientId : received.body.senderUserName;
   }
 
+  const getMaskedId = (): string => {
+    if (!authState.clientId) return '';
+
+    return authState.clientId?.slice(0, 20).split('').map((val, i) => i > 6 ? '*' : val).join('');
+  }
+
   const handleCopyClientId = () => {
     if (!authState.clientId) return;
 
@@ -93,7 +99,7 @@ const AppDrawer = () => {
               <ListItemIcon>
                 <ContentCopyIcon />
               </ListItemIcon>
-              <ListItemText primary="Your ID:" secondary={authState.clientId}/>
+              <ListItemText primary="Your ID:" secondary={getMaskedId()}/>
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>

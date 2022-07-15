@@ -18,9 +18,6 @@ export const subscribe = (ws: WebSocket) => {
         case "CONNECT":
           dispatch({
             type: AuthTypes.CONNECT_SUCCESS,
-            payload: {
-              clientId: (data.metadata as ConnectionResponse).clientId,
-            },
           });
           break;
         case "MESSAGE":
@@ -56,6 +53,9 @@ export const subscribe = (ws: WebSocket) => {
         case "LOGIN":
           dispatch({
             type: AuthTypes.LOGIN_SUCCESS,
+            payload: {
+              clientId: (data.metadata as ConnectionResponse).clientId,
+            }
           })
           break;
         default:
