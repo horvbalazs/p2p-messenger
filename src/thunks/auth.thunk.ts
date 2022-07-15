@@ -15,7 +15,6 @@ export const logInAsGuest = (ws?: WebSocket, guestId?: string) => {
       const data: WebsocketMessageData = {
         type: "LOGIN",
         metadata: {
-          clientId: undefined,
           guestId,
         },
       };
@@ -45,7 +44,8 @@ export const loginWithOAuth = (userId: string, username: string, ws?: WebSocket)
       const data: WebsocketMessageData = {
         type: "LOGIN",
         metadata: {
-          clientId: userId,
+          userId,
+          guestId: '',
         },
       };
 
