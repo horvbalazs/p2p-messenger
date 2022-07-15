@@ -25,7 +25,7 @@ const authReducer = (
       return {
         ...state,
         loggedIn: true,
-        username: action.payload?.username ?? getRandomName(),
+        username: state.username ?? getRandomName(),
         clientId: action.payload?.clientId ?? state.clientId,
       };
     case AuthTypes.LOGOUT_SUCCESS:

@@ -53,6 +53,11 @@ export const subscribe = (ws: WebSocket) => {
             },
           })
           break;
+        case "LOGIN":
+          dispatch({
+            type: AuthTypes.LOGIN_SUCCESS,
+          })
+          break;
         default:
           break;
       }

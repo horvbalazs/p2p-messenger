@@ -22,9 +22,6 @@ export const logInAsGuest = (ws?: WebSocket, guestId?: string) => {
 
       try {
         ws.send(JSON.stringify(data));
-        dispatch({
-          type: AuthTypes.LOGIN_SUCCESS,
-        });
       } catch (e) {
         dispatch({
           type: AuthTypes.LOGIN_FAILURE,
@@ -54,9 +51,6 @@ export const loginWithOAuth = (userId: string, username: string, ws?: WebSocket)
 
       try {
         ws.send(JSON.stringify(data));
-        dispatch({
-          type: AuthTypes.LOGIN_SUCCESS,
-        });
         dispatch({
           type: AuthTypes.CHANGE_NAME,
           payload: {
