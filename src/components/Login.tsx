@@ -11,6 +11,12 @@ const LoginContainer = styled.div`
   justify-content: center;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  max-width: 200px;
+  flex-direction: column;
+`;
+
 function Login() {
   const dispatch = useAppDispatch();
   const websocket = useContext(WebsocketContext);
@@ -21,9 +27,12 @@ function Login() {
   };
   return (
     <LoginContainer className="Login">
-      <Button variant="contained" size="large" onClick={handleLogin}>
-        Continue as Guest
-      </Button>
+      <ButtonContainer>
+        <Button variant="contained" size="large" onClick={handleLogin}>
+          Continue as Guest
+        </Button>
+        <div id="firebaseui-auth-container"></div>
+      </ButtonContainer>
     </LoginContainer>
   );
 }

@@ -34,6 +34,44 @@ export const logInAsGuest = (ws?: WebSocket, guestId?: string) => {
   };
 };
 
+export const loginWithOAuth = (userId: string, username: string, ws?: WebSocket) => {
+  return (dispatch: Dispatch<Action<AuthTypes>>) => {
+    dispatch({
+      type: AuthTypes.LOGIN,
+    });
+
+    if (!ws) {
+      dispatch({
+        type: AuthTypes.LOGIN_FAILURE,
+      })
+    } else {
+      const data: WebsocketMessageData = {
+        type: "LOGIN",
+        metadata: {
+          clientId: userId,
+        },
+      };
+
+      try {
+        ws.send(JSON.stringify(data));
+        dispatch({
+          type: AuthTypes.LOGIN_SUCCESS,
+        });
+        dispatch({
+          type: AuthTypes.CHANGE_NAME,
+          payload: {
+            username,
+          },
+        });
+      } catch (e) {
+        dispatch({
+          type: AuthTypes.LOGIN_FAILURE,
+        });
+      }
+    }
+  };
+};
+
 export const logout = (clientId: string, ws?: WebSocket) => {
   return (dispatch: Dispatch<Action<AuthTypes>>) => {
     if (!ws) {
