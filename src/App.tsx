@@ -46,7 +46,7 @@ function App() {
 
   return (
     <AppContainer className="App">
-      {ws ?
+      {ws &&
       <ThemeProvider theme={darkTheme}>
         <WebsocketContext.Provider value={ws}>
           <Header />
@@ -60,7 +60,7 @@ function App() {
             </Alert>
           </Snackbar>
         </WebsocketContext.Provider>
-      </ThemeProvider> : <></>}
+      </ThemeProvider>}
     </AppContainer>
   );
 }

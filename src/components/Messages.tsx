@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import SendIcon from '@mui/icons-material/Send';
-import { Box, Button, Divider, IconButton, Paper, Stack, TextField, Toolbar, Typography } from "@mui/material";
+import { Box, Button, Divider, IconButton, Paper, Stack, TextField, Toolbar, Tooltip, Typography } from "@mui/material";
 import moment from "moment";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { FormEvent, useContext, useState } from "react";
@@ -62,10 +62,16 @@ const Messages = () => {
   const getContactDisplayName = () => {
     const received = messages.find(message => message.sender === selectedContact);
     if (received) {
-      return received.body.senderUserName;
+      return <Typography
+        variant="h4"
+      >{received.body.senderUserName}</Typography>
     }
 
-    return selectedContact;
+    return <Tooltip title="The user's indentity will be revealed after they've contacted you.">
+        <Typography
+          variant="h4"
+        >Unkown user</Typography>
+      </Tooltip>
   }
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -103,9 +109,7 @@ const Messages = () => {
     <Toolbar />
     {selectedContact ?  <>
       <HeaderContainer>
-        <Typography
-          variant="h4"
-        >{getContactDisplayName()}</Typography>
+        {getContactDisplayName()}
         <IconButton color="error" onClick={clearConversation}>
           <DeleteIcon />
         </IconButton>

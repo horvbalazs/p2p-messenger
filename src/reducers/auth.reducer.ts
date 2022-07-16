@@ -19,7 +19,6 @@ const authReducer = (
     case AuthTypes.CONNECT_SUCCESS:
       return {
         ...state,
-        clientId: action.payload?.clientId,
       };
     case AuthTypes.LOGIN_SUCCESS:
       return {
