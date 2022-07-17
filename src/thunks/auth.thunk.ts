@@ -47,7 +47,6 @@ export const authenticateWithOauth = (ws?: WebSocket) => {
       const auth = getAuth();
       signInWithPopup(auth, provider)
       .then((result: UserCredential) => {
-        console.log(result);
         dispatch({
           type: AuthTypes.CHANGE_NAME,
           payload: {
